@@ -65,7 +65,7 @@ This document tracks the requirements for submitting Upstack to the Obsidian plu
   "id": "upstack",
   "name": "Upstack",
   "author": "Michael Layug",
-  "description": "Export your Obsidian notes to Substack-compatible HTML with one click.",
+  "description": "A 'copy for Substack' plugin :) Exports your Obsidian notes to Substack-compatible HTML with one click.",
   "repo": "memmmmike/upstack"
 }
 ```
