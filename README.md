@@ -70,7 +70,9 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 4. The HTML is automatically copied to your clipboard
 5. Paste directly into Substack's editor
 
-> **Note**: Ribbon icon is only available on desktop. On mobile, use the command palette.
+> **Note**: 
+> - Ribbon icon is only available on desktop. On mobile, use the command palette.
+> - On mobile, if HTML clipboard is not supported, the content will be copied as plain text (still functional, but formatting may be lost).
 
 ### Example
 

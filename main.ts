@@ -81,12 +81,26 @@ export default class UpstackPlugin extends Plugin {
 				console.warn('Upstack: ⚠️ No tables found in HTML output (checking for text format with | separators)');
 			}
 			
-			// THE KEY: Writing to clipboard as 'text/html'
-			const blob = new Blob([htmlOutput], { type: 'text/html' });
-			const data = [new ClipboardItem({ 'text/html': blob })];
-
-			await navigator.clipboard.write(data);
-			new Notice('Upstack: Copied to clipboard for Substack! Check console for HTML preview.');
+			// Try to write HTML to clipboard (works on desktop, may not work on mobile)
+			try {
+				const blob = new Blob([htmlOutput], { type: 'text/html' });
+				const data = [new ClipboardItem({ 'text/html': blob })];
+				await navigator.clipboard.write(data);
+				new Notice('Upstack: Copied to clipboard for Substack!');
+			} catch (clipboardError) {
+				// Fallback: Copy as plain text (for mobile compatibility)
+				// Mobile browsers may not support ClipboardItem with HTML
+				console.warn('Upstack: ClipboardItem not supported, falling back to plain text:', clipboardError);
+				try {
+					// Strip HTML tags for plain text fallback
+					const textContent = htmlOutput.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+					await navigator.clipboard.writeText(textContent);
+					new Notice('Upstack: Copied as plain text (HTML not supported on this platform)');
+				} catch (textError) {
+					console.error('Upstack: Failed to copy even as plain text:', textError);
+					new Notice('Upstack: Failed to copy. Check console for details.');
+				}
+			}
 		} catch (err) {
 			console.error('Upstack Error:', err);
 			new Notice('Upstack failed to copy. Check console.');
