@@ -67,9 +67,27 @@ Everything is ready! Your plugin has:
 
 ## Step 4: Create Pull Request
 
-1. After committing, you'll see a banner: **"Compare & pull request"** - click it
-2. **PR Title**: `Add plugin: Upstack`
-3. **PR Description**: Copy and paste this (mark all checkboxes):
+### 4.1: Navigate to Your Fork
+1. After committing in Step 3, GitHub will show a yellow banner at the top of your fork's page
+2. The banner says: **"Compare & pull request"** - click this button
+3. **OR** manually navigate to: https://github.com/memmmmike/obsidian-releases
+4. You should see a banner saying "This branch is X commits ahead of obsidianmd:master" - click **"Pull request"**
+
+### 4.2: Set Up the Pull Request
+1. **Base repository**: Should be `obsidianmd/obsidian-releases` (the original)
+2. **Base branch**: Should be `master` (not `main`)
+3. **Compare repository**: Should be `memmmmike/obsidian-releases` (your fork)
+4. **Compare branch**: Should be the branch you just committed to (usually `master` or `main`)
+
+### 4.3: Fill Out the PR Form
+
+**PR Title** (required):
+```
+Add plugin: Upstack
+```
+
+**PR Description** (required):
+Copy and paste this entire block (make sure all checkboxes are marked with `[x]`):
 
 ```markdown
 ## Plugin Information
@@ -96,7 +114,33 @@ A 'copy for Substack' plugin :) Exports your Obsidian notes to Substack-compatib
 - [x] I have created a GitHub release with the required files (main.js and manifest.json)
 ```
 
-4. Click **"Create pull request"**
+**Important Notes:**
+- Make sure ALL checkboxes are marked with `[x]` (not `[ ]`)
+- The description should match your plugin's actual information
+- Double-check that your GitHub release exists and has the correct files
+
+### 4.4: Review the Changes
+Before submitting, GitHub will show you a diff of what changed:
+- You should see your plugin entry added to `community-plugins.json`
+- It should be in alphabetical order (or near the end if you added it at the end)
+- Verify the JSON is valid (no syntax errors)
+
+### 4.5: Submit the PR
+1. Click the green **"Create pull request"** button
+2. You'll be taken to the PR page where you can see:
+   - Your PR title and description
+   - The file changes (diff)
+   - Any automated checks that run
+3. The PR is now submitted and waiting for review!
+
+### 4.6: What Happens Next
+- The Obsidian team will review your PR (this can take days or weeks)
+- They may:
+  - Ask questions in the PR comments
+  - Request changes
+  - Approve and merge it
+- You'll get email notifications for any activity on the PR
+- Once merged, your plugin will appear in Obsidian's community plugin browser!
 
 ## Step 5: Wait for Review
 
