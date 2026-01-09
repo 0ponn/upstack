@@ -109,11 +109,59 @@ When you copy this note, it will be converted to clean HTML with:
 | **Blockquotes** | `> quote` | Styled blockquote |
 | **Horizontal Rules** | `---` | `<hr>` tag |
 
-### Notes
+## Limitations
 
-- **Tables**: Substack doesn't support HTML tables directly. Tables are converted to a readable text format with vertical bar separators. For complex tables, consider using [Datawrapper](https://app.datawrapper.de).
-- **Excalidraw**: Excalidraw files are detected but require manual export and upload to Substack.
-- **Large Images**: Very large images (>1MB) may cause issues. Consider compressing images before embedding.
+### Current Limitations
+
+#### Tables
+- **Issue**: Substack doesn't support HTML tables directly. Tables are converted to a simple text format with vertical bar separators (`|`), which may not be ideal for complex data.
+- **Workaround**: For complex tables, use [Datawrapper](https://app.datawrapper.de) to create interactive charts/tables and embed them manually in Substack.
+- **Impact**: Readability of complex tables is reduced, but basic tables remain functional.
+
+#### Excalidraw Images
+- **Issue**: Excalidraw files (`.excalidraw`) are detected but cannot be automatically converted. The plugin creates a placeholder with the caption, but the image source is empty.
+- **Workaround**: Manually export Excalidraw drawings as PNG/SVG and upload them to Substack, then replace the placeholder.
+- **Impact**: Requires manual intervention for Excalidraw content.
+
+#### Large Images
+- **Issue**: Very large images (>1MB) converted to base64 can create extremely large HTML output (potentially 10MB+), which may:
+  - Slow down Substack's editor
+  - Cause browser performance issues
+  - Exceed clipboard size limits
+- **Workaround**: Compress images before embedding or use external image hosting.
+- **Impact**: Large images may cause performance degradation or fail to copy.
+
+#### Mermaid Charts
+- **Issue**: Mermaid charts require an internet connection to convert via the `mermaid.ink` API. Charts won't render if:
+  - You're offline
+  - The API is down
+  - Network requests are blocked
+- **Workaround**: None currently - requires internet connection.
+- **Impact**: Offline users cannot use Mermaid charts.
+
+#### Base64 Image Embedding
+- **Issue**: All local images are embedded as base64 data URIs, which:
+  - Increases HTML size significantly (base64 is ~33% larger than binary)
+  - May cause Substack's editor to lag with many images
+  - Cannot be cached by browsers
+- **Workaround**: Use external image hosting for better performance.
+- **Impact**: Larger HTML output and potential editor performance issues.
+
+#### Substack Editor Limitations
+- **Issue**: Substack's editor may strip or modify certain HTML structures:
+  - Complex nested elements
+  - Custom attributes
+  - Some inline styles
+- **Workaround**: The plugin outputs clean, semantic HTML, but some advanced formatting may not be preserved.
+- **Impact**: Some custom styling may be lost in Substack.
+
+#### Unsupported Obsidian Features
+- **Not supported**: Obsidian Canvas, embedded PDFs, embedded videos, Dataview queries (only the rendered output), and other advanced Obsidian features.
+- **Impact**: These features will not be converted and may appear as broken references.
+
+#### Performance
+- **Issue**: Processing very large notes with many images can take several seconds.
+- **Impact**: Brief delay when copying large notes.
 
 ## Development
 
@@ -178,11 +226,28 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Roadmap
 
-- [ ] Image compression before base64 conversion
-- [ ] Support for more diagram types
-- [ ] Custom styling options
-- [ ] Batch export for multiple notes
-- [ ] Export to other platforms (Medium, Ghost, etc.)
+### Short-term (v1.1 - v1.2)
+- [ ] **Image compression**: Automatically compress images before base64 conversion to reduce HTML size
+- [ ] **Image size limits**: Add configurable size limits with warnings for large images
+- [ ] **Performance optimization**: Optimize base64 conversion for large images (chunking improvements)
+- [ ] **Better error handling**: More graceful fallbacks for failed image conversions
+
+### Medium-term (v1.3 - v1.5)
+- [ ] **Excalidraw auto-export**: Automatically export Excalidraw files to PNG before embedding
+- [ ] **Offline Mermaid support**: Local Mermaid rendering using a headless browser or WASM
+- [ ] **Table improvements**: Better text-based table formatting or Datawrapper integration
+- [ ] **Custom styling presets**: Allow users to customize output styling (fonts, colors, spacing)
+- [ ] **Progress indicators**: Show progress for large note processing
+
+### Long-term (v2.0+)
+- [ ] **Batch export**: Export multiple notes at once
+- [ ] **Multi-platform support**: Export to Medium, Ghost, WordPress, and other platforms
+- [ ] **Image hosting integration**: Optional integration with image hosting services (Imgur, Cloudinary, etc.)
+- [ ] **Canvas support**: Convert Obsidian Canvas to images or interactive HTML
+- [ ] **PDF embedding**: Support for embedded PDFs
+- [ ] **Video embedding**: Support for embedded videos
+- [ ] **Dataview integration**: Better support for Dataview query results
+- [ ] **Template system**: Customizable HTML templates for different output styles
 
 ---
 
