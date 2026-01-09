@@ -179,31 +179,33 @@ Add plugin: Upstack
 Copy and paste this entire block (make sure all checkboxes are marked with `[x]`):
 
 ```markdown
-## Plugin Information
+# I am submitting a new Community Plugin
 
-- **Name**: Upstack
-- **ID**: upstack
-- **Author**: Michael Layug
-- **Repository**: memmmmike/upstack
-- **Version**: 1.0.0
+- [x] I attest that I have done my best to deliver a high-quality plugin, am proud of the code I have written, and would recommend it to others. I commit to maintaining the plugin and being responsive to bug reports. If I am no longer able to maintain it, I will make reasonable efforts to find a successor maintainer or withdraw the plugin from the directory.
 
-## Description
+## Repo URL
 
-A 'copy for Substack' plugin. Exports your Obsidian notes to Substack-compatible HTML with one click. Automatically converts Markdown, embeds images as base64, converts Mermaid charts, and handles callouts, footnotes, and more.
+Link to my plugin: https://github.com/memmmmike/upstack
 
-## Checklist
-
-- [x] I have read the [Submission Requirements](https://docs.obsidian.md/Plugins/Releasing/Submission+requirements+for+plugins)
-- [x] I have read the [Plugin Guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines)
-- [x] My plugin follows the [Code Style Guidelines](https://docs.obsidian.md/Plugins/Releasing/Code+style+guidelines)
-- [x] My plugin is not a duplicate of an existing plugin
-- [x] My plugin ID is unique and doesn't contain "obsidian"
-- [x] I have tested my plugin with the latest version of Obsidian
-- [x] My plugin works on both desktop and mobile
-- [x] I have included a README.md file
-- [x] I have included a LICENSE file
-- [x] My manifest.json is complete and correct
-- [x] I have created a GitHub release with the required files (main.js and manifest.json)
+## Release Checklist
+- [x] I have tested the plugin on
+  - [x]  Windows
+  - [x]  macOS
+  - [x]  Linux
+  - [x]  Android _(if applicable)_
+  - [x]  iOS _(if applicable)_
+- [x] My GitHub release contains all required files (as individual files, not just in the source.zip / source.tar.gz)
+  - [x] `main.js`
+  - [x] `manifest.json`
+  - [ ] `styles.css` _(optional - not applicable)_
+- [x] GitHub release name matches the exact version number specified in my manifest.json (_**Note:** Use the exact version number, don't include a prefix `v`_)
+- [x] The `id` in my `manifest.json` matches the `id` in the `community-plugins.json` file.
+- [x] My README.md describes the plugin's purpose and provides clear usage instructions.
+- [x] I have read the developer policies at https://docs.obsidian.md/Developer+policies, and have assessed my plugin's adherence to these policies.
+- [x] I have read the tips in https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines and have self-reviewed my plugin to avoid these common pitfalls.
+- [x] I have added a license in the LICENSE file.
+- [x] My project respects and is compatible with the original license of any code from other plugins that I'm using.
+      I have given proper attribution to these other projects in my `README.md`.
 ```
 
 **Important Notes:**
