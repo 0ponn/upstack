@@ -1,4 +1,4 @@
-import { App, Plugin, PluginSettingTab, Setting, Notice, MarkdownView, addIcon } from 'obsidian';
+import { App, Plugin, PluginSettingTab, Setting, Notice, MarkdownView, addIcon, Platform } from 'obsidian';
 import { marked } from 'marked';
 
 export default class UpstackPlugin extends Plugin {
@@ -8,17 +8,19 @@ export default class UpstackPlugin extends Plugin {
 		// Test that plugin is loading
 		new Notice('Upstack plugin is loading!');
 		
-		// 1. Add Ribbon Icon with custom stylized "U" icon
+		// 1. Add Ribbon Icon with custom stylized "U" icon (Desktop only - ribbon not available on mobile)
 		// Create a custom SVG icon for "U" - modern, clean design
-		addIcon('upstack-icon', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<path d="M7 4v12c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5V4"/>
-			<path d="M7 4h10"/>
-		</svg>`);
-		
-		this.addRibbonIcon('upstack-icon', 'Copy for Substack', () => {
-			console.log('Upstack: Ribbon icon clicked');
-			this.copySubstackHtml();
-		});
+		if (Platform.isDesktopApp) {
+			addIcon('upstack-icon', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M7 4v12c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5V4"/>
+				<path d="M7 4h10"/>
+			</svg>`);
+			
+			this.addRibbonIcon('upstack-icon', 'Copy for Substack', () => {
+				console.log('Upstack: Ribbon icon clicked');
+				this.copySubstackHtml();
+			});
+		}
 
 		// 2. Add Command Palette Entry
 		this.addCommand({
