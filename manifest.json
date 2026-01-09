@@ -1,0 +1,11 @@
+{
+	"id": "upstack",
+	"name": "Upstack",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Export your Obsidian notes to Substack-compatible HTML with one click. Automatically converts Markdown to clean, semantic HTML optimized for Substack's editor, including embedded images, Mermaid charts, callouts, and more.",
+	"author": "Michael Layug",
+	"authorUrl": "https://github.com/memmmmike",
+	"fundingUrl": "",
+	"isDesktopOnly": false
+}
