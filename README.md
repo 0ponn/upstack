@@ -67,7 +67,7 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 
 ### Example
 
-```markdown
+````markdown
 # My Article Title
 
 Here's an image:
@@ -81,7 +81,7 @@ Here's a Mermaid chart:
 graph TD
     A[Start] --> B[End]
 ```
-```
+````
 
 When you copy this note, it will be converted to clean HTML with:
 - The image embedded as base64
