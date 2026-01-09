@@ -2,14 +2,14 @@
 
 Export your Obsidian notes to Substack-compatible HTML with one click. Automatically converts Markdown to clean, semantic HTML optimized for Substack's editor, including embedded images, Mermaid charts, callouts, and more.
 
-## ✨ Features
+## Features
 
-### 🎯 Core Functionality
+### Core Functionality
 - **One-Click Export**: Copy your note as Substack-ready HTML with a single click
 - **Automatic Image Embedding**: Local images are automatically converted to base64 data URIs and embedded directly in the HTML
 - **Substack-Optimized**: Output is clean, semantic HTML that works perfectly in Substack's editor
 
-### 📝 Markdown Support
+### Markdown Support
 
 #### Images
 - **Obsidian-style images**: `![[image.png|caption]]` → Automatically converted to base64 and embedded
@@ -37,7 +37,7 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 - **Lists**: Ordered and unordered, with nested support
 - **Horizontal rules**: Clean divider lines
 
-## 🚀 Installation
+## Installation
 
 ### From Obsidian (Recommended)
 
@@ -55,7 +55,7 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 3. Reload Obsidian
 4. Enable the plugin in Settings → Community Plugins
 
-## 📖 Usage
+## Usage
 
 ### Quick Start
 
@@ -88,9 +88,9 @@ When you copy this note, it will be converted to clean HTML with:
 - The callout styled as a tip box
 - The Mermaid chart converted to a PNG image
 
-## 🎨 Supported Features
+## Supported Features
 
-### ✅ Fully Supported
+### Fully Supported
 
 | Feature | Obsidian Syntax | Substack Output |
 |---------|----------------|-----------------|
@@ -109,13 +109,13 @@ When you copy this note, it will be converted to clean HTML with:
 | **Blockquotes** | `> quote` | Styled blockquote |
 | **Horizontal Rules** | `---` | `<hr>` tag |
 
-### 📋 Notes
+### Notes
 
 - **Tables**: Substack doesn't support HTML tables directly. Tables are converted to a readable text format with vertical bar separators. For complex tables, consider using [Datawrapper](https://app.datawrapper.de).
 - **Excalidraw**: Excalidraw files are detected but require manual export and upload to Substack.
 - **Large Images**: Very large images (>1MB) may cause issues. Consider compressing images before embedding.
 
-## 🛠️ Development
+## Development
 
 ### Prerequisites
 
@@ -151,7 +151,7 @@ upstack/
 └── versions.json    # Version tracking
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -161,22 +161,22 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [Obsidian API](https://docs.obsidian.md/)
 - Uses [marked](https://github.com/markedjs/marked) for Markdown parsing
 - Mermaid charts powered by [mermaid.ink](https://mermaid.ink/)
 
-## 📧 Support
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/memmmmike/upstack/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/memmmmike/upstack/discussions)
 
-## 🗺️ Roadmap
+## Roadmap
 
 - [ ] Image compression before base64 conversion
 - [ ] Support for more diagram types
@@ -186,4 +186,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ for the Obsidian and Substack communities**
+**Made with love for the Obsidian and Substack communities**
