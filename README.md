@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/memmmmike/upstack/releases)
 [![Obsidian](https://img.shields.io/badge/Obsidian-0.15.0%2B-purple.svg)](https://obsidian.md)
-[![Platform](https://img.shields.io/badge/platform-Desktop%20%7C%20Mobile-lightgrey.svg)](https://obsidian.md)
+[![Platform](https://img.shields.io/badge/platform-Desktop%20%7C%20Mobile%20%28Command%20only%29-lightgrey.svg)](https://obsidian.md)
 
 Export your Obsidian notes to Substack-compatible HTML with one click. Automatically converts Markdown to clean, semantic HTML optimized for Substack's editor, including embedded images, Mermaid charts, callouts, and more.
 
@@ -65,10 +65,12 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 ### Quick Start
 
 1. Open any Markdown note in Obsidian
-2. Click the **Upstack icon** (stylized "U") in the ribbon, OR
-3. Use the command palette: **"Copy current note as Substack-compatible HTML"**
+2. **Desktop**: Click the **Upstack icon** (stylized "U") in the ribbon, OR
+3. **All platforms**: Use the command palette: **"Copy current note as Substack-compatible HTML"**
 4. The HTML is automatically copied to your clipboard
 5. Paste directly into Substack's editor
+
+> **Note**: Ribbon icon is only available on desktop. On mobile, use the command palette.
 
 ### Example
 
