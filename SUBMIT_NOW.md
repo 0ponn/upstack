@@ -188,12 +188,13 @@ Copy and paste this entire block (make sure all checkboxes are marked with `[x]`
 Link to my plugin: https://github.com/memmmmike/upstack
 
 ## Release Checklist
+
 - [x] I have tested the plugin on
-  - [x]  Windows
-  - [x]  macOS
-  - [x]  Linux
-  - [x]  Android _(if applicable)_
-  - [x]  iOS _(if applicable)_
+  - [x] Windows
+  - [x] macOS
+  - [x] Linux
+  - [x] Android _(if applicable)_
+  - [x] iOS _(if applicable)_
 - [x] My GitHub release contains all required files (as individual files, not just in the source.zip / source.tar.gz)
   - [x] `main.js`
   - [x] `manifest.json`
