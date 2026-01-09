@@ -1,6 +1,6 @@
 # Obsidian Plugin Submission - Step by Step
 
-## ✅ Pre-Flight Check
+## Pre-Flight Check
 
 Everything is ready! Your plugin has:
 - ✅ Complete manifest.json with author info
@@ -238,4 +238,4 @@ Before submitting, GitHub will show you a diff of what changed:
 }
 ```
 
-Good luck! 🚀
+Good luck!
