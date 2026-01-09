@@ -1,5 +1,10 @@
 # Upstack
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/memmmmike/upstack/releases)
+[![Obsidian](https://img.shields.io/badge/Obsidian-0.15.0%2B-purple.svg)](https://obsidian.md)
+[![Platform](https://img.shields.io/badge/platform-Desktop%20%7C%20Mobile-lightgrey.svg)](https://obsidian.md)
+
 Export your Obsidian notes to Substack-compatible HTML with one click. Automatically converts Markdown to clean, semantic HTML optimized for Substack's editor, including embedded images, Mermaid charts, callouts, and more.
 
 ## Features
