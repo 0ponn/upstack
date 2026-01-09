@@ -35,19 +35,56 @@ Everything is ready! Your plugin has:
 
 ## Step 2: Fork obsidian-releases
 
+### 2.1: Navigate to the Repository
 1. Go to: https://github.com/obsidianmd/obsidian-releases
-2. Click **"Fork"** (top right)
-3. Wait for fork to complete
+2. This is the official Obsidian repository that contains the community plugin registry
+
+### 2.2: Create a Fork
+1. Look for the **"Fork"** button in the top-right corner of the page (next to "Star" and "Watch")
+2. Click **"Fork"**
+3. GitHub will ask: "Where should we fork this repository?"
+   - Select your account: **memmmmike**
+   - Leave the repository name as: **obsidian-releases**
+4. Click **"Create fork"**
+5. Wait for GitHub to create your fork (usually takes 10-30 seconds)
+6. You'll be redirected to: `https://github.com/memmmmike/obsidian-releases`
+7. You should see a banner at the top saying "forked from obsidianmd/obsidian-releases"
+
+### 2.3: Verify Your Fork
+- Check that the URL is: `https://github.com/memmmmike/obsidian-releases`
+- You should see the repository files (including `community-plugins.json`)
+- The repository should show "forked from obsidianmd/obsidian-releases" at the top
 
 ## Step 3: Add Your Plugin Entry
 
-1. In your fork, navigate to: `community-plugins.json`
-2. Click the **pencil icon** to edit
-3. Find the end of the JSON array (before the closing `]`)
-4. Add a comma after the last entry, then add:
+### 3.1: Navigate to community-plugins.json
+1. In your fork (`memmmmike/obsidian-releases`), scroll down to find the file list
+2. Look for the file: **`community-plugins.json`**
+3. Click on **`community-plugins.json`** to open it
+
+### 3.2: Edit the File
+1. Click the **pencil icon** (✏️) in the top-right corner of the file view (next to "Raw" and "Blame")
+2. This opens the file in edit mode
+3. You'll see a large JSON array with many plugin entries
+
+### 3.3: Find Where to Add Your Entry
+**Option A: Add at the end (easiest)**
+1. Scroll to the very bottom of the file
+2. Find the last plugin entry (it will end with `}`)
+3. After the closing `}` of the last entry, add a comma `,`
+4. Press Enter to add a new line
+
+**Option B: Add in alphabetical order (recommended)**
+1. The plugins are typically sorted alphabetically by `id` or `name`
+2. Find where "upstack" would fit alphabetically
+3. Look for entries starting with "u" or entries that come after "t"
+4. Add your entry in the appropriate location
+5. Make sure to add a comma `,` after the previous entry's closing `}`
+
+### 3.4: Add Your Plugin Entry
+Paste this JSON (make sure it's properly formatted):
 
 ```json
-,
 {
   "id": "upstack",
   "name": "Upstack",
@@ -57,13 +94,44 @@ Everything is ready! Your plugin has:
 }
 ```
 
-5. Make sure:
-   - There's a comma before your entry (unless it's the first one)
-   - JSON is valid (no trailing comma after your entry)
-   - The `id` is unique (check existing entries)
+**Important formatting rules:**
+- Each property should be on its own line (or properly formatted)
+- Use double quotes `"` for all strings (not single quotes)
+- No trailing comma after the last property
+- Proper indentation (usually 2 spaces)
 
-6. Scroll down, add commit message: `Add plugin: Upstack`
-7. Click **"Commit changes"**
+### 3.5: Verify JSON is Valid
+1. Check that:
+   - There's a comma `,` before your entry (unless it's the first entry)
+   - There's NO trailing comma after your entry's closing `}`
+   - All strings are in double quotes
+   - The file still starts with `[` and ends with `]`
+   - Your entry is properly indented
+
+2. **Check for duplicate IDs:**
+   - Use Ctrl+F (or Cmd+F) to search for `"id": "upstack"`
+   - Make sure it only appears once (in your new entry)
+   - If it appears elsewhere, your ID is taken - you'll need a different one
+
+### 3.6: Commit Your Changes
+1. Scroll down to the bottom of the edit page
+2. You'll see a section: **"Commit changes"**
+3. **Commit message** (first text box): 
+   ```
+   Add plugin: Upstack
+   ```
+4. **Extended description** (optional, second text box): Leave empty or add:
+   ```
+   Adds Upstack plugin to community plugins list
+   ```
+5. Make sure **"Commit directly to the master branch"** is selected (or your default branch)
+6. Click the green **"Commit changes"** button
+
+### 3.7: Verify Your Commit
+1. After committing, you'll see a confirmation page
+2. You should see your commit message: "Add plugin: Upstack"
+3. The file should show your new entry in `community-plugins.json`
+4. You're now ready to create the pull request!
 
 ## Step 4: Create Pull Request
 
