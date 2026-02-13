@@ -1,6 +1,7 @@
 # GitHub Release Title and Description
 
 ## Release Title
+
 ```
 Upstack v1.0.0
 ```
@@ -8,6 +9,7 @@ Upstack v1.0.0
 ## Release Description
 
 ### Option 1: Concise
+
 ```
 Initial release of Upstack - Export your Obsidian notes to Substack-compatible HTML with one click.
 
@@ -24,6 +26,7 @@ Initial release of Upstack - Export your Obsidian notes to Substack-compatible H
 ```
 
 ### Option 2: Detailed
+
 ```
 # Upstack v1.0.0 - Initial Release
 
@@ -75,6 +78,7 @@ Full documentation available in the [README](https://github.com/memmmmike/upstac
 ```
 
 ### Option 3: Friendly & Simple (Recommended)
+
 ```
 Initial release of Upstack! 🎉
 

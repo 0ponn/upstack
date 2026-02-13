@@ -15,7 +15,6 @@ Everything is ready! Your plugin has:
 1. Go to: https://github.com/memmmmike/upstack/releases/new
 
 2. Fill in:
-
    - **Tag**: `1.0.0` (must match manifest.json version exactly)
    - **Release title**: `Upstack v1.0.0`
    - **Description**:
@@ -31,7 +30,6 @@ Everything is ready! Your plugin has:
      ```
 
 3. **Upload files** (drag and drop):
-
    - `main.js` (from `/home/mlayug/Documents/projects/upstack/main.js`)
    - `manifest.json` (from `/home/mlayug/Documents/projects/upstack/manifest.json`)
 
@@ -117,7 +115,6 @@ Paste this JSON (make sure it's properly formatted):
 ### 3.5: Verify JSON is Valid
 
 1. Check that:
-
    - There's a comma `,` before your entry (unless it's the first entry)
    - There's NO trailing comma after your entry's closing `}`
    - All strings are in double quotes
@@ -185,7 +182,7 @@ Copy and paste this entire block (make sure all checkboxes are marked with `[x]`
 
 ## Repo URL
 
-Link to my plugin: https://github.com/memmmmike/upstack
+Link to my plugin: `https://github.com/memmmmike/upstack`
 
 ## Release Checklist
 
