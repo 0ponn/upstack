@@ -115,16 +115,16 @@ export default class UpstackPlugin extends Plugin {
 
       try {
         // Try to resolve and read the image file
-        if (!view?.file?.path) {
+        const filePath = view?.file?.path;
+        if (!filePath) {
           console.warn("No view or file path for image:", imagePath);
           continue;
         }
 
         // Resolve the image path relative to the current file
-        // @ts-ignore - We've already checked that path exists above
         const resolvedPath = this.app.metadataCache.getFirstLinkpathDest(
           imagePath,
-          view.file.path!,
+          filePath,
         );
 
         if (!resolvedPath) {
@@ -132,7 +132,7 @@ export default class UpstackPlugin extends Plugin {
             "Could not resolve image path:",
             imagePath,
             "from file:",
-            view.file.path,
+            filePath,
           );
           // Fall through to fallback
         } else if (resolvedPath.path) {
