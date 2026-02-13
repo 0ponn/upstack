@@ -10,6 +10,7 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 ## Features
 
 ### Core Functionality
+
 - **One-Click Export**: Copy your note as Substack-ready HTML with a single click
 - **Automatic Image Embedding**: Local images are automatically converted to base64 data URIs and embedded directly in the HTML
 - **Substack-Optimized**: Output is clean, semantic HTML that works perfectly in Substack's editor
@@ -17,16 +18,19 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 ### Markdown Support
 
 #### Images
+
 - **Obsidian-style images**: `![[image.png|caption]]` → Automatically converted to base64 and embedded
 - **Standard Markdown images**: `![caption](image.png)` → Converted to `<figure>` tags with captions
 - **Aspect ratio containers**: Images use responsive containers to prevent layout shift
 - **Excalidraw support**: Excalidraw files are detected and converted (manual upload required)
 
 #### Diagrams & Charts
+
 - **Mermaid charts**: Automatically converted to PNG images via mermaid.ink API
 - Supports flowcharts, sequence diagrams, and all Mermaid diagram types
 
 #### Content Formatting
+
 - **Callouts/Admonitions**: All 8 types (note, tip, important, warning, error, success, question, info)
 - **Highlights**: `==text==` → Styled `<mark>` tags
 - **Footnotes**: Clickable references with footnotes section at bottom
@@ -36,6 +40,7 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 - **Wikilinks**: `[[link]]` → Standard markdown links
 
 #### Typography
+
 - **Headings**: All 6 levels (H1-H6) with Substack-optimized styling
 - **Text formatting**: Bold, italic, strikethrough, inline code
 - **Blockquotes**: Styled quote blocks
@@ -70,7 +75,8 @@ Export your Obsidian notes to Substack-compatible HTML with one click. Automatic
 4. The HTML is automatically copied to your clipboard
 5. Paste directly into Substack's editor
 
-> **Note**: 
+> **Note**:
+>
 > - Ribbon icon is only available on desktop. On mobile, use the command palette.
 > - On mobile, if HTML clipboard is not supported, the content will be copied as plain text (still functional, but formatting may be lost).
 
@@ -86,6 +92,7 @@ Here's an image:
 > This is a helpful tip!
 
 Here's a Mermaid chart:
+
 ```mermaid
 graph TD
     A[Start] --> B[End]
@@ -93,6 +100,7 @@ graph TD
 ````
 
 When you copy this note, it will be converted to clean HTML with:
+
 - The image embedded as base64
 - The callout styled as a tip box
 - The Mermaid chart converted to a PNG image
@@ -101,38 +109,41 @@ When you copy this note, it will be converted to clean HTML with:
 
 ### Fully Supported
 
-| Feature | Obsidian Syntax | Substack Output |
-|---------|----------------|-----------------|
-| **Images** | `![[image.png\|caption]]` | Base64 embedded `<figure>` |
-| **Mermaid Charts** | ` ```mermaid ... ``` ` | PNG image via mermaid.ink |
-| **Callouts** | `> [!note]` | Styled blockquote |
-| **Highlights** | `==text==` | `<mark>` tag |
-| **Footnotes** | `[^1]` | Clickable superscript links |
-| **Tables** | `\| Col1 \| Col2 \|` | Text format with separators |
-| **Code Blocks** | ` ```code``` ` | Styled `<pre><code>` |
-| **Task Lists** | `- [ ]` / `- [x]` | Checkboxes (☐/☑) |
-| **Wikilinks** | `[[link]]` | Standard markdown links |
-| **Headings** | `# H1` to `###### H6` | Semantic HTML headings |
-| **Text Formatting** | `**bold**`, `*italic*` | Styled HTML |
-| **Lists** | `- item` / `1. item` | HTML lists |
-| **Blockquotes** | `> quote` | Styled blockquote |
-| **Horizontal Rules** | `---` | `<hr>` tag |
+| Feature              | Obsidian Syntax           | Substack Output             |
+| -------------------- | ------------------------- | --------------------------- |
+| **Images**           | `![[image.png\|caption]]` | Base64 embedded `<figure>`  |
+| **Mermaid Charts**   | ` ```mermaid ... ``` `    | PNG image via mermaid.ink   |
+| **Callouts**         | `> [!note]`               | Styled blockquote           |
+| **Highlights**       | `==text==`                | `<mark>` tag                |
+| **Footnotes**        | `[^1]`                    | Clickable superscript links |
+| **Tables**           | `\| Col1 \| Col2 \|`      | Text format with separators |
+| **Code Blocks**      | ` ```code``` `            | Styled `<pre><code>`        |
+| **Task Lists**       | `- [ ]` / `- [x]`         | Checkboxes (☐/☑)            |
+| **Wikilinks**        | `[[link]]`                | Standard markdown links     |
+| **Headings**         | `# H1` to `###### H6`     | Semantic HTML headings      |
+| **Text Formatting**  | `**bold**`, `*italic*`    | Styled HTML                 |
+| **Lists**            | `- item` / `1. item`      | HTML lists                  |
+| **Blockquotes**      | `> quote`                 | Styled blockquote           |
+| **Horizontal Rules** | `---`                     | `<hr>` tag                  |
 
 ## Limitations
 
 ### Current Limitations
 
 #### Tables
+
 - **Issue**: Substack doesn't support HTML tables directly. Tables are converted to a simple text format with vertical bar separators (`|`), which may not be ideal for complex data.
 - **Workaround**: For complex tables, use [Datawrapper](https://app.datawrapper.de) to create interactive charts/tables and embed them manually in Substack.
 - **Impact**: Readability of complex tables is reduced, but basic tables remain functional.
 
 #### Excalidraw Images
+
 - **Issue**: Excalidraw files (`.excalidraw`) are detected but cannot be automatically converted. The plugin creates a placeholder with the caption, but the image source is empty.
 - **Workaround**: Manually export Excalidraw drawings as PNG/SVG and upload them to Substack, then replace the placeholder.
 - **Impact**: Requires manual intervention for Excalidraw content.
 
 #### Large Images
+
 - **Issue**: Very large images (>1MB) converted to base64 can create extremely large HTML output (potentially 10MB+), which may:
   - Slow down Substack's editor
   - Cause browser performance issues
@@ -141,6 +152,7 @@ When you copy this note, it will be converted to clean HTML with:
 - **Impact**: Large images may cause performance degradation or fail to copy.
 
 #### Mermaid Charts
+
 - **Issue**: Mermaid charts require an internet connection to convert via the `mermaid.ink` API. Charts won't render if:
   - You're offline
   - The API is down
@@ -149,6 +161,7 @@ When you copy this note, it will be converted to clean HTML with:
 - **Impact**: Offline users cannot use Mermaid charts.
 
 #### Base64 Image Embedding
+
 - **Issue**: All local images are embedded as base64 data URIs, which:
   - Increases HTML size significantly (base64 is ~33% larger than binary)
   - May cause Substack's editor to lag with many images
@@ -157,6 +170,7 @@ When you copy this note, it will be converted to clean HTML with:
 - **Impact**: Larger HTML output and potential editor performance issues.
 
 #### Substack Editor Limitations
+
 - **Issue**: Substack's editor may strip or modify certain HTML structures:
   - Complex nested elements
   - Custom attributes
@@ -165,10 +179,12 @@ When you copy this note, it will be converted to clean HTML with:
 - **Impact**: Some custom styling may be lost in Substack.
 
 #### Unsupported Obsidian Features
+
 - **Not supported**: Obsidian Canvas, embedded PDFs, embedded videos, Dataview queries (only the rendered output), and other advanced Obsidian features.
 - **Impact**: These features will not be converted and may appear as broken references.
 
 #### Performance
+
 - **Issue**: Processing very large notes with many images can take several seconds.
 - **Impact**: Brief delay when copying large notes.
 
@@ -176,7 +192,7 @@ When you copy this note, it will be converted to clean HTML with:
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Setup
@@ -236,12 +252,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Roadmap
 
 ### Short-term (v1.1 - v1.2)
+
 - [ ] **Image compression**: Automatically compress images before base64 conversion to reduce HTML size
 - [ ] **Image size limits**: Add configurable size limits with warnings for large images
 - [ ] **Performance optimization**: Optimize base64 conversion for large images (chunking improvements)
 - [ ] **Better error handling**: More graceful fallbacks for failed image conversions
 
 ### Medium-term (v1.3 - v1.5)
+
 - [ ] **Excalidraw auto-export**: Automatically export Excalidraw files to PNG before embedding
 - [ ] **Offline Mermaid support**: Local Mermaid rendering using a headless browser or WASM
 - [ ] **Table improvements**: Better text-based table formatting or Datawrapper integration
@@ -249,6 +267,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] **Progress indicators**: Show progress for large note processing
 
 ### Long-term (v2.0+)
+
 - [ ] **Batch export**: Export multiple notes at once
 - [ ] **Multi-platform support**: Export to Medium, Ghost, WordPress, and other platforms
 - [ ] **Image hosting integration**: Optional integration with image hosting services (Imgur, Cloudinary, etc.)
