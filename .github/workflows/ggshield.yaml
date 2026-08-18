@@ -1,0 +1,15 @@
+name: GitGuardian Secret Scan (ggshield)
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  ggshield:
+    uses: 0ponn/devsec-baseline/.github/workflows/ggshield.yaml@main
+    secrets:
+      GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+    permissions:
+      contents: read
