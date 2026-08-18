@@ -1,15 +1,224 @@
-name: GitGuardian Secret Scan (ggshield)
+# GitGuardian Secret Scan (ggshield) — STANDALONE COPY for public repos.
+#
+# This repo is PUBLIC and GitHub forbids public repos from calling reusable
+# workflows that live in a private repo (0ponn/devsec-baseline). The thin
+# `workflow_call` caller therefore startup-fails here with zero jobs. This
+# file is a verbatim fork of devsec-baseline/.github/workflows/ggshield.yaml
+# with the `workflow_call` trigger dropped and the job name pinned to the
+# exact org-ruleset required-check context ("ggshield / ggshield secret scan")
+# so one ruleset covers private callers and public forks alike.
+#
+# SYNC NOTE: changes to the canonical workflow in devsec-baseline must be
+# hand-copied here (and to the other public forks). Tracked in SEC-6.
+#
+# Key injection: GITGUARDIAN_API_KEY is an ORG-LEVEL GitHub secret
+# (all-repos visibility), so no per-repo setup is needed.
+#
+# Triggers:
+#   - push / pull_request -> diff-scoped `ggshield secret scan ci` (flags only
+#     NEWLY introduced secrets; full-history exposure is the GitGuardian
+#     App's job, not the merge gate's).
+#   - workflow_dispatch   -> full-history `ggshield secret scan repo .` for
+#     on-demand baseline sweeps.
+
+name: ggshield
+
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch: {}
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
 jobs:
   ggshield:
-    uses: 0ponn/devsec-baseline/.github/workflows/ggshield.yaml@main
-    secrets:
-      GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+    # Pinned to the org ruleset's required status-check context.
+    name: ggshield / ggshield secret scan
+    runs-on: ubuntu-latest
     permissions:
       contents: read
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # full history so the commit range can be scanned
+
+      - name: Install ggshield
+        run: pipx install ggshield
+
+      # Push / PR: diff-scoped scan of the commits in this event only.
+      # `set +e` classifies the exit code, it does not suppress it — the step still exits `$code`.
+      - name: ggshield secret scan (diff-scoped, push/PR)
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set +e
+          ggshield secret scan --json --output ggshield-report.json ci
+          code=$?
+          set -e
+          case "$code" in
+            0)
+              echo "ggshield: scan completed, no new secrets in the scanned commits."
+              ;;
+            1)
+              # ggshield writes the report before exiting 1.
+              # File existence alone isn't proof of a finding — a report can exist with zero incidents.
+              if [ -f ggshield-report.json ] && [ "$(jq -r '[.. | objects | select(has("filename") and has("incidents")) | .incidents[]?] | length' ggshield-report.json 2>/dev/null)" -gt 0 ]; then
+                echo "::error title=Secret detected::ggshield flagged a secret in the commits scanned by this event. Rotate the credential first — a value that reached the remote is compromised regardless of what happens to this branch — then remove it from the diff. The file and detector are in this run's job summary."
+              else
+                echo "::error title=ggshield produced no report or no findings (exit 1)::No secret finding was confirmed in the report, so this is most likely a credential failure rather than a detection. Nothing in this diff can clear it. Check the step log."
+              fi
+              ;;
+            *)
+              echo "::error title=ggshield did not complete (exit $code)::This is a scanner or credential failure, NOT a secret detection: ggshield exits 1 for a finding and this run did not. Nothing in this diff can clear it. Check the step log for the cause."
+              ;;
+          esac
+          exit $code
+
+      # Manual dispatch: full-history baseline sweep.
+      - name: ggshield secret scan (full history, manual dispatch)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+        run: |
+          set +e
+          ggshield secret scan --json --output ggshield-report.json repo .
+          code=$?
+          set -e
+          case "$code" in
+            0)
+              echo "ggshield: full-history sweep completed, no secrets found."
+              ;;
+            1)
+              # ggshield writes the report before exiting 1.
+              # File existence alone isn't proof of a finding — a report can exist with zero incidents.
+              if [ -f ggshield-report.json ] && [ "$(jq -r '[.. | objects | select(has("filename") and has("incidents")) | .incidents[]?] | length' ggshield-report.json 2>/dev/null)" -gt 0 ]; then
+                echo "::error title=Secret detected::ggshield flagged a secret in the repository history. Rotate every credential it names — history rewriting does not un-leak a pushed value — then triage removal. The files and detectors are in this run's job summary."
+              else
+                echo "::error title=ggshield produced no report or no findings (exit 1)::No secret finding was confirmed in the report, so this is most likely a credential failure rather than a detection. The sweep produced no verdict. Check the step log."
+              fi
+              ;;
+            *)
+              echo "::error title=ggshield did not complete (exit $code)::This is a scanner or credential failure, NOT a secret detection: ggshield exits 1 for a finding and this run did not. The sweep produced no verdict. Check the step log for the cause."
+              ;;
+          esac
+          exit $code
+
+      # `if: always()` so it renders when the scan fails — exactly when it is needed.
+      # Whitelisted fields only: a step summary is public to anyone with repo read.
+      - name: Summarize ggshield findings
+        if: always()
+        run: |
+          set -euo pipefail
+          # The Summary tab is best-effort and never fails the check.
+          summary_only() {
+            if [ -z "${GITHUB_STEP_SUMMARY:-}" ] || ! printf '%s\n' "$*" >> "$GITHUB_STEP_SUMMARY"; then
+              [ -n "${summary_warned:-}" ] || echo "::warning title=Job summary unavailable::Findings are in this step's log instead."
+              summary_warned=1
+            fi
+          }
+
+          # Log write is unconditional; finding rows past the Summary tab's cap use summary_only and reach the log alone.
+          summary() {
+            printf '%s\n' "$*"
+            summary_only "$@"
+          }
+
+          summary "## GitGuardian secret scan"
+          summary ""
+
+          if [ ! -f ggshield-report.json ]; then
+            summary "The scan did not produce a report, so there is no verdict here."
+            summary "Either it failed before scanning or it never started — see the scan step's log."
+            exit 0
+          fi
+
+          # A report this step cannot parse must not turn a passing scan red.
+          if ! jq empty ggshield-report.json 2>/dev/null; then
+            summary "The scan produced a report that could not be read, so there is no verdict here."
+            summary "See the scan step's log for the findings."
+            exit 0
+          fi
+
+          # Findings are incidents (grouped by ignore_sha); locations are individual matches.
+          # Errors are batches ggshield failed to scan: recorded, never in the exit code. Presence only — ggshield copies a batch's errors onto every commit in it, so any count is inflated.
+          counts=$(jq -r '
+            [.. | objects | select(has("filename") and has("incidents")) | .incidents[]?] as $incidents
+            | [.. | objects | select(has("errors")) | .errors[]?] as $errors
+            | "\($incidents | length) \([$incidents[].occurrences[]?] | length) \(if ($errors | length) > 0 then 1 else 0 end)"
+          ' ggshield-report.json) || counts=""
+          read -r findings locations unscanned <<< "$counts"
+          # The counts are the verdict — without them, say so rather than defaulting to clean.
+          case "${findings:-}${locations:-}${unscanned:-}" in
+            ''|*[!0-9]*)
+              summary "The scan produced a report this step could not interpret, so there is no verdict here."
+              summary "See the scan step's log for the findings."
+              exit 0
+              ;;
+          esac
+
+          # Presence only: an error description is not a whitelisted field.
+          # Incomplete coverage fails here because it cannot fail anywhere else — a skipped batch never reaches ggshield's exit code.
+          incomplete=0
+          if [ "$unscanned" -eq 1 ]; then
+            echo "::error title=Partial scan coverage::ggshield failed to scan part of this target, so this run did not cover all of it. A clean result does not clear the unscanned commits. Check the scan step log for the cause."
+            summary "> **Coverage is incomplete.** ggshield failed to scan part of this target, and a failed batch does not change the scan step's exit code, so this step fails instead. Read anything below as covering only what was successfully scanned."
+            summary ""
+            incomplete=1
+          fi
+
+          if [ "$findings" -eq 0 ]; then
+            summary "No secrets detected in the scanned commits."
+            exit "$incomplete"
+          fi
+
+          summary "**$findings finding(s) across $locations location(s).** Rotate every credential listed before removing it from the diff — a value that reached the remote is already compromised."
+          summary ""
+          summary "| File | Detector | Lines |"
+          summary "| --- | --- | --- |"
+
+          # One row per file+detector, lines numerically sorted; recursive descent since `ci`/`repo` nest results.
+          # Two tab-separated variants per row: the capped one for the Summary tab, the full one for the log. Tabs in a path are squashed so the split stays sound.
+          # Same reason as the counts above: a filter this step cannot run must not fail the check.
+          jq -r '
+            [.. | objects | select(has("filename") and has("incidents"))]
+            | map({file: .filename, incident: .incidents[]?})
+            | map({file, detector: .incident.type, lines: [.incident.occurrences[]?.line_start]})
+            | group_by([.file, .detector])
+            | map({file: .[0].file, detector: .[0].detector, lines: (map(.lines) | add | unique)})
+            | sort_by(.file, .detector)[]
+            | .lines as $lines
+            | (.file | gsub("\\|"; "\\|") | gsub("\t"; " ")) as $f
+            | ($lines[0:8] | map(tostring) | join(", ")) as $shown
+            | "| \($f) | \(.detector) | \($shown)\(if ($lines | length) > 8 then " +\(($lines | length) - 8) more" else "" end) |"
+              + "\t| \($f) | \(.detector) | \($lines | map(tostring) | join(", ")) |"
+          ' ggshield-report.json > /tmp/ggshield-rows.txt || : > /tmp/ggshield-rows.txt
+
+          # Every row reaches the log; the Summary tab is capped so a large result set stays under GitHub's 1 MiB ceiling.
+          max_rows=100
+          pairs=$(wc -l < /tmp/ggshield-rows.txt)
+          row_num=0
+          while IFS="$(printf '\t')" read -r capped full; do
+            row_num=$((row_num + 1))
+            if [ "$row_num" -le "$max_rows" ]; then summary_only "$capped"; fi
+            printf '%s\n' "$full"
+          done < /tmp/ggshield-rows.txt
+
+          if [ "$pairs" -gt "$max_rows" ]; then
+            summary_only ""
+            summary_only "_Showing the first $max_rows of $pairs file/detector pairs. The full list is in this step's log._"
+          fi
+
+          summary ""
+          summary "_Matched values are omitted deliberately — this summary is readable by anyone with repo access._"
+
+          exit "$incomplete"
+
+      # A runner that reuses its workspace would otherwise read a stale report as the next run's verdict.
+      - name: Remove ggshield report
+        if: always()
+        run: rm -f ggshield-report.json
