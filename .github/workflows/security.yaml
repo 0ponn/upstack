@@ -482,13 +482,18 @@ jobs:
 
       - name: Determine environment
         id: env
+        env:
+          # Indirection, not interpolation: a ref name can carry shell
+          # metacharacters, so it must never be spliced into the script text.
+          EVENT_NAME: ${{ github.event_name }}
+          REF: ${{ github.ref }}
         run: |
           # env=main only on a push to the default branch (main or master).
           # Anything else (PRs, feature-branch pushes, workflow_dispatch from
           # a non-default branch) is feature.
-          if [ "${{ github.event_name }}" = "push" ] && \
-             { [ "${{ github.ref }}" = "refs/heads/main" ] || \
-               [ "${{ github.ref }}" = "refs/heads/master" ]; }; then
+          if [ "$EVENT_NAME" = "push" ] && \
+             { [ "$REF" = "refs/heads/main" ] || \
+               [ "$REF" = "refs/heads/master" ]; }; then
             echo "env=main" >> "$GITHUB_OUTPUT"
           else
             echo "env=feature" >> "$GITHUB_OUTPUT"
