@@ -607,7 +607,7 @@ ${cleanContent}
       const originalListItem = renderer.listitem.bind(renderer);
       renderer.listitem = (token: Tokens.ListItem) => {
         // Check if this is a task list item (checkbox)
-        if (token.task !== undefined && token.task !== null) {
+        if (token.task === true) {
           const checked = token.checked;
           const checkbox = checked ? "\u2611" : "\u2610";
           const text = originalListItem(token);
